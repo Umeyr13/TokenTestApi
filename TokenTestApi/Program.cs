@@ -11,9 +11,9 @@ builder.Services.AddSwaggerGen();
 
 //   DataBase
 
-builder.Services.AddDbContext<DatabaseContext>(options =>
-     options.UseSqlServer(builder.Configuration.GetConnectionString("StandartBaglanti")
-    ,sqlServerOption => sqlServerOption.EnableRetryOnFailure() ));
+builder.Services.AddDbContext<DatabaseContext>();
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 
 var app = builder.Build();

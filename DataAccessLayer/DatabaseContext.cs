@@ -10,21 +10,14 @@ namespace DataAccessLayer
 {
     public class DatabaseContext:DbContext
     {
-        public DatabaseContext()
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-        }
+            optionsBuilder.UseSqlServer("server=DESKTOP-V3J8H32; initial catalog = TokenTestApi; integrated Security=true");
 
-        public DatabaseContext(DbContextOptions options) : base(options)
-        {
         }
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,7 +25,7 @@ namespace DataAccessLayer
                 .HasOne(t => t.Customer)
                 .WithMany(c => c.Transactions)
                 .HasForeignKey(t => t.CustomerID);
-                
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
